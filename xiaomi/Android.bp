@@ -4,13 +4,13 @@
 
 soong_namespace {
     imports: [
-        "vendor/miuicamera-sweet",
+        "vendor/miuicamera-violet",
     ],
 }
 
 cc_prebuilt_library_shared {
     name: "libcamera_algoup_jni.xiaomi",
-    owner: "miuicamera-sweet",
+    owner: "miuicamera-violet",
     strip: {
         none: true,
     },
@@ -50,7 +50,7 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "libcamera_mianode_jni.xiaomi",
-    owner: "miuicamera-sweet",
+    owner: "miuicamera-violet",
     strip: {
         none: true,
     },
@@ -86,7 +86,7 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "libmicampostproc_client",
-    owner: "miuicamera-sweet",
+    owner: "miuicamera-violet",
     strip: {
         none: true,
     },
@@ -125,7 +125,7 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "vendor.xiaomi.hardware.campostproc@1.0",
-    owner: "miuicamera-sweet",
+    owner: "miuicamera-violet",
     strip: {
         none: true,
     },
@@ -153,7 +153,7 @@ cc_prebuilt_library_shared {
 
 android_app_import {
     name: "MiuiCamera",
-    owner: "miuicamera-sweet",
+    owner: "miuicamera-violet",
     apk: "proprietary/system/priv-app/MiuiCamera/MiuiCamera.apk",
     overrides: [
         "Aperture",
