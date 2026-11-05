@@ -1,0 +1,31 @@
+From eb1a9672bcb6cf32c824434fed792998ccc3686d Mon Sep 17 00:00:00 2001
+From: raghavt20 <raghavt20@aospa.co>
+Date: Thu, 5 Nov 2026 05:24:42 +0000
+Subject: [PATCH] Disable portrait depth image in Common config
+
+With it on, every portrait session adds a Y16 depth stream at half
+the photo size and capture waits for the depth data. violet's CHI has
+no front camera usecase for that stream set (operation mode 0x80f1),
+so front portrait fails to configure streams, and the HAL then keeps
+the front camera's resource cost, so every later open fails with
+"HW resource insufficient" until the camera provider restarts.
+---
+ smali_classes2/com/mi/device/Common.smali | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/smali_classes2/com/mi/device/Common.smali b/smali_classes2/com/mi/device/Common.smali
+index 745996c6..ec33970a 100644
+--- a/smali_classes2/com/mi/device/Common.smali
++++ b/smali_classes2/com/mi/device/Common.smali
+@@ -3938,7 +3938,7 @@
+ .method public oOO00O()Z
+     .locals 0
+ 
+-    const/4 p0, 0x1
++    const/4 p0, 0x0
+ 
+     return p0
+ .end method
+-- 
+2.43.0
+
