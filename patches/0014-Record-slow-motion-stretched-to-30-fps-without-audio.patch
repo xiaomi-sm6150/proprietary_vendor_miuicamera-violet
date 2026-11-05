@@ -1,0 +1,45 @@
+From 18f9e69f9be9cba75dd1b26503b39ae976abf35d Mon Sep 17 00:00:00 2001
+From: raghavt20 <raghavt20@aospa.co>
+Date: Thu, 5 Nov 2026 12:39:47 +0000
+Subject: [PATCH] Record slow motion stretched to 30 fps without audio
+
+MIUI records slow motion as real-time 120 fps video (HSR) and relies on
+MIUI Gallery to slow it down, so other players and Google Photos treat it
+as a normal 120 fps clip. Keep the 120 fps capture rate but set the
+output frame rate to 30, so the framework stretches the timestamps and
+writes com.android.capture.fps=120 like AOSP slow motion, and drop audio
+for it, as MIUI does on devices that record stretched slow motion.
+---
+ smali/com/android/camera/module/video/RecorderController.smali | 2 +-
+ smali/com/android/camera/module/video/UserRecordSetting.smali  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/smali/com/android/camera/module/video/RecorderController.smali b/smali/com/android/camera/module/video/RecorderController.smali
+index 0dcea68c..4ab74058 100644
+--- a/smali/com/android/camera/module/video/RecorderController.smali
++++ b/smali/com/android/camera/module/video/RecorderController.smali
+@@ -2990,7 +2990,7 @@
+     .line 80
+     iget-object v1, v0, Lcom/android/camera/module/video/RecorderController;->mUserSetting:Lcom/android/camera/module/video/UserRecordSetting;
+ 
+-    iget v1, v1, Lcom/android/camera/module/video/UserRecordSetting;->mFrameRate:I
++    const/16 v1, 0x1e
+ 
+     invoke-virtual {v2, v1}, Lcom/android/camera/module/video/MediaRecorderParameter$Builder;->setVideoFrameRate(I)Lcom/android/camera/module/video/MediaRecorderParameter$Builder;
+ 
+diff --git a/smali/com/android/camera/module/video/UserRecordSetting.smali b/smali/com/android/camera/module/video/UserRecordSetting.smali
+index ff0067a1..c65cdedc 100644
+--- a/smali/com/android/camera/module/video/UserRecordSetting.smali
++++ b/smali/com/android/camera/module/video/UserRecordSetting.smali
+@@ -2864,7 +2864,7 @@
+ 
+     const/4 v2, 0x1
+ 
+-    xor-int/2addr v1, v2
++    const/4 v1, 0x0
+ 
+     .line 3
+     invoke-virtual {p0}, Lcom/android/camera/module/video/UserRecordSetting;->isNormalMode()Z
+-- 
+2.43.0
+
