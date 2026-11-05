@@ -47,6 +47,7 @@
 /vendor/lib(64)?/libSuperSensor_skel\.so                                         u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libSuperSensor\.so                                              u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libsymphony-cpu\.so                                             u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libsymphonypower\.so                                            u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libVDClearShot\.so                                              u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libVDDualCameraClearShot\.so                                    u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libVDSuperPhotoAPI\.so                                          u:object_r:same_process_hal_file:s0
