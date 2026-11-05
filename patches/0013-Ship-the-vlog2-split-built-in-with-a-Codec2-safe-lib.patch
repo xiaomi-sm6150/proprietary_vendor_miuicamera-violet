@@ -1,0 +1,54 @@
+From 28f2f682e05cf7d5fb1415b9f13eb6b3e6fbe764 Mon Sep 17 00:00:00 2001
+From: raghavt20 <raghavt20@aospa.co>
+Date: Thu, 5 Nov 2026 12:16:30 +0000
+Subject: [PATCH] Ship the vlog2 split built-in with a Codec2-safe
+ libvvmediaeditor
+
+vlog2 (3.13@15) is downloaded from the Xiaomi CDN at runtime. Its
+libvvmediaeditor.so files any encoder buffer that starts with an SPS as
+codec config. c2.qti.avc.encoder prepends SPS/PPS to every IDR frame, so
+the first IDR never reached the MP4 muxer, no video track was created,
+every sample write failed and Vlog stopped after the first clip.
+
+Ship vlog2 as assets/vlog2.zip (3.13@16) with libvvmediaeditor.so patched
+by patches/vlog2/vvpatch.py, which strips the leading SPS/PPS from key
+frames that are not codec-config buffers (and copies from
+BufferInfo.offset), and point the qigsaw split info at it.
+---
+ assets/qigsaw_5.0.0.0_2.0.json | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/assets/qigsaw_5.0.0.0_2.0.json b/assets/qigsaw_5.0.0.0_2.0.json
+index 6ecd1dcb..5c6a4c8d 100644
+--- a/assets/qigsaw_5.0.0.0_2.0.json
++++ b/assets/qigsaw_5.0.0.0_2.0.json
+@@ -280,12 +280,12 @@
+     },
+     {
+       "splitName": "vlog2",
+-      "url": "https://cdn.cnbj1.fds.api.mi-img.com/plugin-apk/release/vlog2/3.13@15/vlog2-2a322ee0e0cda593c8cb9b740d16ca2d-20220324143431876.apk",
+-      "builtIn": false,
++      "url": "assets://vlog2.zip",
++      "builtIn": true,
+       "onDemand": true,
+-      "size": 27585786,
+-      "version": "3.13@15",
+-      "md5": "2a322ee0e0cda593c8cb9b740d16ca2d",
++      "size": 27608415,
++      "version": "3.13@16",
++      "md5": "d36d0dfc97b0017f312001cf4da577eb",
+       "minSdkVersion": 29,
+       "dexNumber": 1,
+       "nativeLibraries": [
+@@ -299,7 +299,7 @@
+             },
+             {
+               "name": "libvvmediaeditor.so",
+-              "md5": "4347fa91c87a841b3ff47fc2c29ba663",
++              "md5": "109536d3460ef8f3917588b5adb00ab0",
+               "size": 10438200
+             }
+           ]
+-- 
+2.43.0
+
